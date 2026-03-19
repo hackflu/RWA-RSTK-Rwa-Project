@@ -13,7 +13,7 @@ async function main() {
         "https://02.functions-gateway.testnet.chain.link/",
     ];
     const slotIdNumber = 0; // slot ID where to upload the secrets
-    const expirationTimeMinutes = 15; // expiration time in minutes of the secrets
+    const expirationTimeMinutes = 1240; // expiration time in minutes of the secrets
     console.log("Secrets type check:", typeof requestConfig.secrets);
     console.log("Secrets keys:", Object.keys(requestConfig.secrets));
     console.log("Secret values are strings?",

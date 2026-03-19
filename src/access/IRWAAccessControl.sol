@@ -11,6 +11,8 @@ interface IRWAAccessControl {
     function grantBurnerRole(address account) external;
     function grantKYCAgentRole(address account) external;
 
+    function owner() external view returns (address);
+
     function isAdmin(address account) external view returns (bool);
     function isMinter(address account) external view returns (bool);
     function isUpgrader(address account) external view returns (bool);

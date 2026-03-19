@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {
-    ERC20Pausable,
-    ERC20
-} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
+import {ERC20Pausable, ERC20} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import {IRWAAccessControl} from "../../access/IRWAAccessControl.sol";
 
 contract RSTKToken is ERC20Pausable {
@@ -39,19 +36,13 @@ contract RSTKToken is ERC20Pausable {
     }
 
     function pause() public {
-        require(
-            i_accessControl.isPauser(msg.sender),
-            "Not Authorized To pause"
-        );
+        require(i_accessControl.isPauser(msg.sender), "Not Authorized To pause");
 
         _pause();
     }
 
     function unpause() public {
-        require(
-            i_accessControl.isPauser(msg.sender),
-            "Not Authorized to unpause"
-        );
+        require(i_accessControl.isPauser(msg.sender), "Not Authorized to unpause");
         _unpause();
     }
 

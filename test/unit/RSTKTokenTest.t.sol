@@ -3,9 +3,8 @@ pragma solidity ^0.8.19;
 import {Test, console} from "forge-std/Test.sol";
 import {RSTKToken} from "../../src/RSTK/token/RSTKToken.sol";
 import {IRWAAccessControl} from "../../src/access/IRWAAccessControl.sol";
-import {
-    DeployRWAAccessControl
-} from "../../script/DeployRWAAccessControl.s.sol";
+import {DeployRWAAccessControl} from "../../script/DeployRWAAccessControl.s.sol";
+
 contract RSTKTokenTest is Test {
     RSTKToken public rstkToken;
     IRWAAccessControl public rwaAccessControl;
@@ -14,6 +13,7 @@ contract RSTKTokenTest is Test {
     address public minter = makeAddr("minter");
     address public burner = makeAddr("burner");
     address public pauser = makeAddr("pauser");
+
     function setUp() public {
         DeployRWAAccessControl deployRWAAccessControl = new DeployRWAAccessControl();
         // admin is the default account for now
@@ -22,7 +22,6 @@ contract RSTKTokenTest is Test {
     }
 
     event Paused(address account);
-
 
     function testMint() public {
         uint256 amount = 1e18;
@@ -76,7 +75,7 @@ contract RSTKTokenTest is Test {
 
         vm.startPrank(pauser);
         bool successPauser = rwaAccessControl.isPauser(pauser);
-        vm.expectEmit(false, false, false ,true , address(rstkToken));
+        vm.expectEmit(false, false, false, true, address(rstkToken));
         emit Paused(pauser);
         rstkToken.pause();
         vm.stopPrank();
@@ -86,7 +85,6 @@ contract RSTKTokenTest is Test {
         assertEq(rstkToken.totalSupply(), amount);
         assertEq(rstkToken.balanceOf(alice), amount);
     }
-
 
     function testPauserWithoutRole() public {
         vm.startPrank(alice);
@@ -113,7 +111,7 @@ contract RSTKTokenTest is Test {
         vm.stopPrank();
         vm.startBroadcast(minter);
         vm.expectRevert();
-        rstkToken.transfer(alice, amount); 
+        rstkToken.transfer(alice, amount);
         vm.stopPrank();
     }
 
@@ -139,7 +137,7 @@ contract RSTKTokenTest is Test {
 
         vm.startPrank(minter);
         rstkToken.mint(minter, amount);
-        rstkToken.transfer(alice, amount); 
+        rstkToken.transfer(alice, amount);
         vm.stopPrank();
     }
 }

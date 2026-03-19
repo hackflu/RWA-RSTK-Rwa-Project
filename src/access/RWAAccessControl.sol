@@ -35,7 +35,9 @@ contract RWAAccessControl is IRWAAccessControl, AccessControlDefaultAdminRules {
     /*//////////////////////////////////////////////////////////////
                                CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
-    constructor(address admin) AccessControlDefaultAdminRules(THREE_DAYS, admin) {
+    constructor(
+        address admin
+    ) AccessControlDefaultAdminRules(THREE_DAYS, admin) {
         _setRoleAdmin(PAUSER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(UPGRADER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(MINTER_ROLE, DEFAULT_ADMIN_ROLE);
@@ -47,27 +49,37 @@ contract RWAAccessControl is IRWAAccessControl, AccessControlDefaultAdminRules {
                                 FUNCTION
     //////////////////////////////////////////////////////////////*/
 
-    function grantPauserRole(address account) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantPauserRole(
+        address account
+    ) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         _grantRole(PAUSER_ROLE, account);
         emit RoleAssigned("Pause Role", account);
     }
 
-    function grantUpgraderRole(address account) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantUpgraderRole(
+        address account
+    ) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         _grantRole(UPGRADER_ROLE, account);
         emit RoleAssigned("Upgradeable Role", account);
     }
 
-    function grantMinterRole(address account) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantMinterRole(
+        address account
+    ) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         _grantRole(MINTER_ROLE, account);
         emit RoleAssigned("Minter Role", account);
     }
 
-    function grantBurnerRole(address account) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantBurnerRole(
+        address account
+    ) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         _grantRole(BURNER_ROLE, account);
         emit RoleAssigned("Burner role", account);
     }
 
-    function grantKYCAgentRole(address account) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantKYCAgentRole(
+        address account
+    ) external validAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         _grantRole(KYC_AGENT_ROLE, account);
         emit RoleAssigned("KYCAgent Role", account);
     }
@@ -91,7 +103,17 @@ contract RWAAccessControl is IRWAAccessControl, AccessControlDefaultAdminRules {
     function isPauser(address account) external view returns (bool) {
         return hasRole(PAUSER_ROLE, account);
     }
+
     function isKYCAgentRole(address account) external view returns (bool) {
         return hasRole(KYC_AGENT_ROLE, account);
+    }
+
+    function owner()
+        public
+        view
+        override(AccessControlDefaultAdminRules, IRWAAccessControl)
+        returns (address)
+    {
+        return defaultAdmin();
     }
 }
